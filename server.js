@@ -31,7 +31,7 @@ app.set('views', path.join(__dirname, "/app/views"));
 // app.set('partials', path.join(__dirname, "/app/views/partials"))
 
 // Import routes and give the server access to them.
-var routes = require("./app/controllers/burger_controller.js");
+var routes = require("./app/controllers/(filename)");
 
 app.use(routes);
 
