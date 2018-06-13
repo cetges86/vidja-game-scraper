@@ -2,6 +2,20 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var path = require("path");
 
+const mongojs = require("mongojs");
+const request = require("request");
+const cheerio = require("cheerio");
+
+// // Database configuration
+// var databaseUrl = "scraper";
+// var collections = ["scrapedData"];
+
+// // Hook mongojs configuration to the db variable
+// var db = mongojs(databaseUrl, collections);
+// db.on("error", function(error) {
+//   console.log("Database Error:", error);
+// });
+
 var PORT = process.env.PORT || 8080;
 
 var app = express();
@@ -34,6 +48,7 @@ app.set('views', path.join(__dirname, "/app/views"));
 var routes = require("./app/controllers/(filename)");
 
 app.use(routes);
+
 
 // Start our server so that it can begin listening to client requests.
 app.listen(PORT, function () {
