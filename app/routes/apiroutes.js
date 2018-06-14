@@ -1,31 +1,69 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var path = require("path");
+var mongoose = require("mongoose");
 
-const mongojs = require("mongojs");
 const request = require("request");
 const cheerio = require("cheerio");
 
-// Database configuration
-var databaseUrl = "scraper";
-var collections = ["scrapedData"];
+var db = require("../models");
 
-// Hook mongojs configuration to the db variable
-var db = mongojs(databaseUrl, collections);
-db.on("error", function(error) {
-  console.log("Database Error:", error);
-});
+var app = express();
 
-app.get("/all", function(req, res) {
-    // Query: In our database, go to the animals collection, then "find" everything
-    db.scrapedData.find({}, function(error, found) {
-      // Log any errors if the server encounters one
-      if (error) {
-        console.log(error);
-      }
-      // Otherwise, send the result of this query to the browser
-      else {
-        res.json(found);
-      }
-    });
+module.exports = function (app) {
+  app.get("/articles", function (req, res) {
+    db.Article.find({})
+      .then(function (dbArticles) {
+        res.json(dbArticles);
+      })
+      .catch(function (err) {
+        return res.json(err);
+      })
   });
+
+  app.get("/scrape", function (req, res) {
+    // Query: In our database, go to the animals collection, then "find" everything
+
+    request("http://www.gamespot.com/news/", function (error, response, html) {
+
+      // Load the HTML into cheerio and save it to a variable
+      // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
+      var $ = cheerio.load(html);
+
+      // Select each element in the HTML body from which you want information.
+      // NOTE: Cheerio selectors function similarly to jQuery's selectors,
+      // but be sure to visit the package's npm page to see how it works
+      $("a.js-event-tracking").each(function (i, element) {
+
+        let result = {};
+
+        result.link = "http://www.gamespot.com" + $(element).attr("href");
+        result.title = $(element).data('event-title')
+        result.summary = $(element).children("div").children('p').text();
+        
+
+
+        // Save these results in an object that we'll push into the results array we defined earlier
+        if (result.title) {
+          db.Article.create(result)
+            .then(function (newArticle) {
+              console.log(newArticle)
+            })
+            .catch(function (err) {
+              // If an error occurred, send it to the client
+              return res.json(err);;
+            })
+        };
+        // Log the results once you've looped through each of the elements found with cheerio
+        // db.Article.find({})
+        //   .then(function (dbArticles) {
+        //     res.json(dbArticles);
+        //   })
+        //   .catch(function (err) {
+        //     return res.json(err);
+        //   })
+      });
+    });
+    res.send("Scrape Complete");
+  });
+}
