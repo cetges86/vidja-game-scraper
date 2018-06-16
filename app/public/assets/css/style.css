@@ -1,0 +1,12 @@
+.btn {
+    padding:5px;
+    margin-left: 25px;
+    border-radius: 50%;
+    font-size: .7em;
+}
+
+#scrape {
+    background-color: firebrick;
+    border-radius: 15px;
+    color: white;
+}

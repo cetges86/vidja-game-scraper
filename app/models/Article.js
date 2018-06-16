@@ -24,8 +24,12 @@ var ArticleSchema = new Schema({
         ref: "Comment"
     },
     dateAdded: {
-        type:Date,
-        default:Date.now()
+        type: Date,
+        default: Date.now()
+    },
+    saved: {
+        type: Boolean,
+        default: false
     }
 });
 

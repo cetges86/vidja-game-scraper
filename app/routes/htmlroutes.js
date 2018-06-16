@@ -13,18 +13,21 @@ module.exports = function (app) {
   app.get("/", function (req, res) {
     db.Article.find({})
       .then(function (dbArticles) {
-        console.log(dbArticles);
-        res.render("index", {dbArticles});
+        res.render("index", { dbArticles });
       })
       .catch(function (err) {
         return res.json(err);
       })
-    
-    // res.sendFile(path.join(__dirname, "../public/assets/index.html"));
   });
 
-  app.get("/recipe", function (req, res) {
-    res.sendFile(path.join(__dirname, "../public/assets/newrecipe.html"));
+  app.get("/saved", function (req, res) {
+    db.Article.find({saved: true})
+      .then(function (dbArticles) {
+        res.render("saved", { dbArticles });
+      })
+      .catch(function (err) {
+        return res.json(err);
+      })
   });
 
   app.get("/app/public/assets/css/style.css", function (req, res) {
@@ -35,8 +38,13 @@ module.exports = function (app) {
   //   res.sendFile(process.cwd() + "/app/public/assets/css/" + "animate.css");
   // });
 
-  app.get("../../public/assets/js/main.js", function (req, res) {
-    res.sendFile(process.cwd() + "/app/public/assets/" + "main.js");
+  app.get("/app/public/assets/img/gamespot-logo.png", function (req, res) {
+    res.sendFile(process.cwd() + "/app/public/assets/img/gamespot-logo.png");
+  });
+  //app/public/assets/img/gamespot-logo.png
+
+  app.get("/app/public/assets/js/main.js", function (req, res) {
+    res.sendFile(process.cwd() + "/app/public/assets/js/main.js");
   });
   // app.get("/app/public/assets/js/jquery.waypoints.js", function (req, res) {
   //   res.sendFile(process.cwd() + "/app/public/assets/js/" + "jquery.waypoints.js");

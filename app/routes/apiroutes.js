@@ -21,6 +21,26 @@ module.exports = function (app) {
       })
   });
 
+  app.put("/save", function (req, res) {
+    db.Article.updateOne({ _id: req.body.id }, { $set: { saved: true } })
+    .then((updatedArticles)=> {
+      res.json(updatedArticles);
+    })
+    .catch(function (err) {
+      return res.json(err);
+    })
+  })
+
+  app.put("/unsave", function (req, res) {
+    db.Article.updateOne({ _id: req.body.id }, { $set: { saved: false } })
+    .then((updatedArticles)=> {
+      res.json(updatedArticles);
+    })
+    .catch(function (err) {
+      return res.json(err);
+    })
+  })
+
   app.get("/scrape", function (req, res) {
     // Query: In our database, go to the animals collection, then "find" everything
 
@@ -40,7 +60,7 @@ module.exports = function (app) {
         result.link = "http://www.gamespot.com" + $(element).attr("href");
         result.title = $(element).data('event-title')
         result.summary = $(element).children("div").children('p').text();
-        
+
 
 
         // Save these results in an object that we'll push into the results array we defined earlier
@@ -54,16 +74,8 @@ module.exports = function (app) {
               return res.json(err);;
             })
         };
-        // Log the results once you've looped through each of the elements found with cheerio
-        // db.Article.find({})
-        //   .then(function (dbArticles) {
-        //     res.json(dbArticles);
-        //   })
-        //   .catch(function (err) {
-        //     return res.json(err);
-        //   })
       });
     });
-    res.send("Scrape Complete");
+    res.redirect('/');
   });
 }
