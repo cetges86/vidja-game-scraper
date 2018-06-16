@@ -23,22 +23,39 @@ module.exports = function (app) {
 
   app.put("/save", function (req, res) {
     db.Article.updateOne({ _id: req.body.id }, { $set: { saved: true } })
-    .then((updatedArticles)=> {
-      res.json(updatedArticles);
-    })
-    .catch(function (err) {
-      return res.json(err);
-    })
+      .then((updatedArticles) => {
+        res.json(updatedArticles);
+      })
+      .catch(function (err) {
+        return res.json(err);
+      })
   })
 
   app.put("/unsave", function (req, res) {
     db.Article.updateOne({ _id: req.body.id }, { $set: { saved: false } })
-    .then((updatedArticles)=> {
-      res.json(updatedArticles);
+      .then((updatedArticles) => {
+        res.json(updatedArticles);
+      })
+      .catch(function (err) {
+        return res.json(err);
+      })
+  })
+
+  app.post("/articles/:id", function (req, res) {
+    db.Comment.create(req.body)
+    .then(function (newComment) {
+      // View the added result in the console
+      console.log(newComment);
+      return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: newComment._id }, { new: true });
+
+    })
+    .then(function (addedComment) {
+      res.redirect("/");
     })
     .catch(function (err) {
+      // If an error occurred, send it to the client
       return res.json(err);
-    })
+    });
   })
 
   app.get("/scrape", function (req, res) {
@@ -71,7 +88,8 @@ module.exports = function (app) {
             })
             .catch(function (err) {
               // If an error occurred, send it to the client
-              return res.json(err);;
+              //return res.json(err);
+              console.error(err);
             })
         };
       });

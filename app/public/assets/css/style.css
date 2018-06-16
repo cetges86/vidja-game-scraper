@@ -1,12 +1,48 @@
+body {
+    background-color: rgb(151, 171, 190);
+    font-family: 'Josefin Sans';
+
+}
+
 .btn {
     padding:5px;
     margin-left: 25px;
-    border-radius: 50%;
+    border-radius: 40px;
     font-size: .7em;
+}
+
+.save {
+    border-radius: 50%;
+    padding-top: 7px;
 }
 
 #scrape {
     background-color: firebrick;
     border-radius: 15px;
     color: white;
+}
+
+#banner {
+    text-align: center;
+    font-variant: small-caps;
+    font-size: 2rem;
+}
+
+ol {
+    list-style-type: upper-roman;
+    
+}
+
+a {
+    color: #13182b;
+}
+
+nav {
+
+        background-color: rgba(255,255,255,0.5);
+        border-bottom: 1px black solid;
+}
+
+form {
+    margin-top:15px;
 }

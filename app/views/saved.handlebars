@@ -1,14 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/">Video Game Scraper</a>
+  <a class="navbar-brand" href="/"> <- Back</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
     aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link" href="/scrape">Scrape
-        <span class="sr-only">(current)</span>
-      </a>
       <a class="nav-item nav-link active" href="/saved">Saved</a>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -16,15 +13,18 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="/date-sort">Sort by Most Recent</a>
-          <a class="dropdown-item" href="alpha-sort">Sort Alphabetically</a>
+          <a class="dropdown-item" href="/alpha-sort">Sort Alphabetically</a>
         </div>
       </li>
+      <a id="scrape" class="nav-item nav-link" href="/scrape">Scrape
+        <span class="sr-only">(current)</span>
+      </a>
     </div>
   </div>
 </nav>
 <div class="container">
 
-  <h3>Articles courtesy of
+  <h3 id="banner">Articles courtesy of
     <a href="http://www.gamespot.com">
       <img src="/app/public/assets/img/gamespot-logo.png" alt="">
     </a>

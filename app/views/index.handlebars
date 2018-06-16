@@ -13,7 +13,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="/date-sort">Sort by Most Recent</a>
-          <a class="dropdown-item" href="alpha-sort">Sort Alphabetically</a>
+          <a class="dropdown-item" href="/alpha-sort">Sort Alphabetically</a>
         </div>
       </li>
       <a id="scrape" class="nav-item nav-link active" href="/scrape">Scrape New Articles
@@ -24,7 +24,7 @@
 </nav>
 <div class="container">
 
-  <h3>Articles courtesy of
+  <h3 id="banner">Articles courtesy of
     <a href="http://www.gamespot.com">
       <img src="/app/public/assets/img/gamespot-logo.png" alt="">
     </a>
@@ -32,23 +32,41 @@
 
 
   <ol>
-  
+
     {{#each dbArticles}}
-    <hr>
-    <a href={{link}}>
-      <h5>{{title}} </a>
-    {{#if saved}}
-    <button data-id={{_id}} type="button" class="save btn btn-success">Saved</button>
-    {{else}}
-    <button data-id={{_id}} type="button" class="save btn btn-info">Save</button>
-    {{/if}}
 
-    </h5>
-
-    <p>{{summary}}</p>
     <hr>
+    <li>
+      <a href={{link}}>
+        <h5>{{title}} </a>
+      {{#if saved}}
+      <button data-id={{_id}} type="button" class="save btn btn-success">Saved</button>
+      {{else}}
+      <button data-id={{_id}} type="button" class="save btn btn-info">Save</button>
+      {{/if}}
+      </h5>
+
+      <p>{{summary}}</p>
+      {{#if comment}}
+      <ul> Comments
+        {{#each comment}}
+        <li>{{title}}
+          <p>{{body}}</p>
+        </li>
+        {{/each}}
+      </ul>
+      <button data-id={{_id}} type="button" class="add-comment btn btn-dark">+ Comment</button>
+        <div class="comment-box"></div>
+      {{else}}
+      <button data-id={{_id}} type="button" class="add-comment btn btn-dark">+ Comment</button>
+          <div class="comment-box"></div>
+
+      {{/if}}
+
+      <hr>
+    </li>
     {{/each}}
-  
+
   </ol>
 
 </div>

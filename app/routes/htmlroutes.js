@@ -12,6 +12,7 @@ module.exports = function (app) {
   //have to use res.render for handlebars
   app.get("/", function (req, res) {
     db.Article.find({})
+    .populate("comment")
       .then(function (dbArticles) {
         res.render("index", { dbArticles });
       })
