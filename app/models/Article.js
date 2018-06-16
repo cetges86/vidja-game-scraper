@@ -22,6 +22,10 @@ var ArticleSchema = new Schema({
     comment: {
         type: Schema.Types.ObjectId,
         ref: "Comment"
+    },
+    dateAdded: {
+        type:Date,
+        default:Date.now()
     }
 });
 
