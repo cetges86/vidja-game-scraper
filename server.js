@@ -1,13 +1,13 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var path = require("path");
-var mongoose = require("mongoose");
+const express = require("express");
+const bodyParser = require("body-parser");
+const path = require("path");
+const mongoose = require("mongoose");
 
-var PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
 
-var app = express();
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/vidjagames";
+const app = express();
 
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/vidjagames";
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
