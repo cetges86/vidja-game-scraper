@@ -2,7 +2,6 @@ $(function () {
 
     $('.save').on('click', function (event) {
         event.preventDefault();
-
         if ($(this).hasClass('btn-info')) {
             $(this).removeClass("btn-info");
             $(this).addClass("btn-success");
@@ -42,7 +41,6 @@ $(function () {
 
     $(document).on('click', '#add-comment', function (event) {
         event.preventDefault();
-
         let articleID = $(this).data("id")
 
         $('.submit').on('click', function (event) {
@@ -78,9 +76,7 @@ $(function () {
             // With that done, add the note information to the page
             .then(function (data) {
                 console.log(data.comment)
-                // Place the title of the note in the title input
                 $("#update-title").val(data.comment.title);
-                // Place the body of the comemnt in the body textarea
                 $("#update-body").val(data.comment.body);
                 let commentID = data.comment._id;
 
@@ -91,7 +87,7 @@ $(function () {
                         title: $('#update-title').val().trim(),
                         body: $('#update-body').val().trim()
                     }
-        
+
                     console.log(newComment.title, newComment.body)
                     $.ajax({
                         type: "PUT",
@@ -104,9 +100,5 @@ $(function () {
                     });
                 })
             });
-
-       
     });
-
-
 });
