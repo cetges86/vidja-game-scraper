@@ -7,9 +7,7 @@ var path = require("path");
 // =============================================================
 module.exports = function (app) {
 
-  // Each of the below routes just handles the HTML page that the user gets sent to.
-
-  //have to use res.render for handlebars
+  //get all articles populated with comments if they exist
   app.get("/", function (req, res) {
     db.Article.find({})
     .populate("comment")
@@ -21,6 +19,7 @@ module.exports = function (app) {
       })
   });
 
+  //view saved articles
   app.get("/saved", function (req, res) {
     db.Article.find({saved: true})
     .populate("comment")

@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 8080;
 
 const app = express();
 
+//set up for mongoDb on heroku
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/vidjagames";
 mongoose.Promise = Promise;
 
@@ -37,7 +38,6 @@ app.set('views', path.join(__dirname, "/app/views"));
 // Import routes and give the server access to them.
 require("./app/routes/apiroutes")(app);
 require("./app/routes/htmlroutes")(app);
-
 
 // Start our server so that it can begin listening to client requests.
 app.listen(PORT, function () {
