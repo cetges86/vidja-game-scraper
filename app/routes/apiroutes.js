@@ -22,7 +22,7 @@ module.exports = function (app) {
   });
 
   app.get("/articles/:id", function (req, res) {
-    db.Article.findOne({_id:req.params.id})
+    db.Article.findOne({ _id: req.params.id })
       .populate("comment")
       .then(function (dbArticles) {
         res.json(dbArticles);
@@ -54,7 +54,7 @@ module.exports = function (app) {
 
   app.put("/comment/:id", function (req, res) {
     console.log(req.params.id)
-    db.Comment.findOneAndUpdate({ _id: req.params.id },{$set: {title: req.body.title, body: req.body.body}})
+    db.Comment.findOneAndUpdate({ _id: req.params.id }, { $set: { title: req.body.title, body: req.body.body } })
       .then((updatedComment) => {
         console.log("line 59: " + updatedComment);
         res.json(updatedComment);
@@ -66,19 +66,19 @@ module.exports = function (app) {
 
   app.post("/articles/:id", function (req, res) {
     db.Comment.create(req.body)
-    .then(function (newComment) {
-      // View the added result in the console
-      console.log(newComment);
-      return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: newComment._id }, { new: true });
+      .then(function (newComment) {
+        // View the added result in the console
+        console.log(newComment);
+        return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: newComment._id }, { new: true });
 
-    })
-    .then(function (addedComment) {
-      res.redirect("/");
-    })
-    .catch(function (err) {
-      // If an error occurred, send it to the client
-      return res.json(err);
-    });
+      })
+      .then(function (addedComment) {
+        res.redirect("/");
+      })
+      .catch(function (err) {
+        // If an error occurred, send it to the client
+        return res.json(err);
+      });
   })
 
   app.get("/scrape", function (req, res) {
@@ -89,10 +89,6 @@ module.exports = function (app) {
       // Load the HTML into cheerio and save it to a variable
       // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
       var $ = cheerio.load(html);
-
-      // Select each element in the HTML body from which you want information.
-      // NOTE: Cheerio selectors function similarly to jQuery's selectors,
-      // but be sure to visit the package's npm page to see how it works
       $("a.js-event-tracking").each(function (i, element) {
 
         let result = {};
@@ -114,6 +110,20 @@ module.exports = function (app) {
             })
         };
       });
+
     });
+    app.get("/articles", function (req, res) {
+      db.Articles.find({})
+        .then(function (dbArticle) {
+          // If all Notes are successfully found, send them back to the client
+          res.json(dbArticle);
+        })
+        .catch(function (err) {
+          // If an error occurs, send the error back to the client
+          res.json(err);
+        });
+      // TODO: Finish the route so it grabs all of the articles
+    });
+    res.send("Scrape Complete");
   });
 }
