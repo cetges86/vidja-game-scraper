@@ -101,8 +101,6 @@ module.exports = function (app) {
         result.title = $(element).data('event-title')
         result.summary = $(element).children("div").children('p').text();
 
-
-
         // Save these results in an object that we'll push into the results array we defined earlier
         if (result.title) {
           db.Article.create(result)
@@ -116,7 +114,6 @@ module.exports = function (app) {
             })
         };
       });
-      res.send('Scrape Complete');
     });
   });
 }

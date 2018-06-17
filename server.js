@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 
 //set up for mongoDb on heroku
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/vidjagames";
 mongoose.connect(MONGODB_URI);
 mongoose.Promise = Promise;
 
