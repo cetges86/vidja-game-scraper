@@ -3,22 +3,13 @@ var bodyParser = require("body-parser");
 var path = require("path");
 var mongoose = require("mongoose");
 
-
-// // Database configuration
-// var databaseUrl = "scraper";
-// var collections = ["scrapedData"];
-
-// // Hook mongojs configuration to the db variable
-// var db = mongojs(databaseUrl, collections);
-// db.on("error", function(error) {
-//   console.log("Database Error:", error);
-// });
-
 var PORT = process.env.PORT || 8080;
 
 var app = express();
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/vidjagames";
 
-mongoose.connect("mongodb://localhost/vidjagames");
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
 
 // Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
