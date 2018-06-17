@@ -23,6 +23,7 @@ module.exports = function (app) {
 
   app.get("/saved", function (req, res) {
     db.Article.find({saved: true})
+    .populate("comment")
       .then(function (dbArticles) {
         res.render("saved", { dbArticles });
       })
@@ -31,24 +32,16 @@ module.exports = function (app) {
       })
   });
 
+
   app.get("/app/public/assets/css/style.css", function (req, res) {
     res.sendFile(process.cwd() + "/app/public/assets/css/" + "style.css");
   });
 
-  // app.get("/app/public/assets/css/animate.css", function (req, res) {
-  //   res.sendFile(process.cwd() + "/app/public/assets/css/" + "animate.css");
-  // });
-
   app.get("/app/public/assets/img/gamespot-logo.png", function (req, res) {
     res.sendFile(process.cwd() + "/app/public/assets/img/gamespot-logo.png");
   });
-  //app/public/assets/img/gamespot-logo.png
 
   app.get("/app/public/assets/js/main.js", function (req, res) {
     res.sendFile(process.cwd() + "/app/public/assets/js/main.js");
   });
-  // app.get("/app/public/assets/js/jquery.waypoints.js", function (req, res) {
-  //   res.sendFile(process.cwd() + "/app/public/assets/js/" + "jquery.waypoints.js");
-  // });
-
 };

@@ -1,7 +1,5 @@
 $(function () {
 
-
-
     $('.save').on('click', function (event) {
         event.preventDefault();
 
@@ -42,27 +40,10 @@ $(function () {
 
     })
 
-    $('.add-comment').on('click', function (event) {
+    $(document).on('click', '#add-comment', function (event) {
+        event.preventDefault();
 
         let articleID = $(this).data("id")
-
-        let commentBox = $('<div>')
-
-        event.preventDefault();
-        $(commentBox).html(`
-        <form>
-        <div class="form-group">
-          <label>New Comment</label>
-          <input type="text" class="form-control" placeholder="Enter title" id="title">
-        </div>
-        <div class="input-group">
-          <textarea class="form-control" aria-label="With textarea" placeholder="Enter comment" id="body"></textarea>
-        </div>
-        <br>
-        <button type="submit" class="submit btn btn-primary">Add</button>
-      </form>`)
-
-      $('.comment-box').append(commentBox);
 
         $('.submit').on('click', function (event) {
             event.preventDefault();
@@ -73,17 +54,59 @@ $(function () {
 
             $.ajax({
                 type: "POST",
-                url: "/articles/"+articleID,
+                url: "/articles/" + articleID,
                 data: newComment
             }).then(function (data) {
                 console.log("Comment added");
-                $('#comment-box').hide();
+                location.reload();
             });
 
 
         })
     });
 
+    $(document).on('click', '#update-comment', function (event) {
+
+        event.preventDefault();
+        let articleID = $(this).data("id")
+        console.log(articleID);
+
+        $.ajax({
+            method: "GET",
+            url: "/articles/" + articleID
+        })
+            // With that done, add the note information to the page
+            .then(function (data) {
+                console.log(data.comment)
+                // Place the title of the note in the title input
+                $("#update-title").val(data.comment.title);
+                // Place the body of the comemnt in the body textarea
+                $("#update-body").val(data.comment.body);
+                let commentID = data.comment._id;
+
+                $('#save').on('click', function (event) {
+                    event.preventDefault();
+
+                    let newComment = {
+                        title: $('#update-title').val().trim(),
+                        body: $('#update-body').val().trim()
+                    }
+        
+                    console.log(newComment.title, newComment.body)
+                    $.ajax({
+                        type: "PUT",
+                        url: "/comment/" + commentID,
+                        data: newComment
+                    }).then(function (data) {
+                        console.log("Comment updated");
+                        console.log(data)
+                        location.reload();
+                    });
+                })
+            });
+
+       
+    });
 
 
 });

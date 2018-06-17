@@ -6,16 +6,7 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link" href="/saved">Saved</a>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Sorting Options
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="/date-sort">Sort by Most Recent</a>
-          <a class="dropdown-item" href="/alpha-sort">Sort Alphabetically</a>
-        </div>
-      </li>
+      <a class="nav-item nav-link" href="/saved">Saved Articles </a>
       <a id="scrape" class="nav-item nav-link active" href="/scrape">Scrape New Articles
         <span class="sr-only">(current)</span>
       </a>
@@ -47,20 +38,19 @@
       </h5>
 
       <p>{{summary}}</p>
-      {{#if comment}}
-      <ul> Comments
-        {{#each comment}}
-        <li>{{title}}
-          <p>{{body}}</p>
-        </li>
-        {{/each}}
-      </ul>
-      <button data-id={{_id}} type="button" class="add-comment btn btn-dark">+ Comment</button>
-        <div class="comment-box"></div>
-      {{else}}
-      <button data-id={{_id}} type="button" class="add-comment btn btn-dark">+ Comment</button>
-          <div class="comment-box"></div>
 
+      {{#if comment}}
+      <ul> Comment
+        <hr>
+        <li>
+          <strong> {{comment.title}}</strong>
+          <br> -{{comment.body}}
+        </li>
+        <hr>
+      </ul>
+      <button data-id={{_id}} type="button" data-toggle="modal" data-target="#update-modal" id="update-comment" class="btn btn-dark">Update Comment</button>
+      {{else}}
+      <button data-id={{_id}} type="button" data-toggle="modal" data-target="#comment-modal" id="add-comment" class="btn btn-dark">+ Comment</button>
       {{/if}}
 
       <hr>
@@ -69,4 +59,67 @@
 
   </ol>
 
+<footer>
+ <strong> &copy; Christopher Etges 2018 </strong>
+  <a id="footer-link" href="/articles">Articles API</a>
+</footer>
+</div>
+
+
+<div class="modal" id="comment-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Comment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+        <div class="form-group">
+          <label>New Comment</label>
+          <input type="text" class="form-control" placeholder="Enter title" id="title">
+        </div>
+        <div class="input-group">
+          <textarea class="form-control" aria-label="With textarea" placeholder="Enter comment" id="body"></textarea>
+        </div>
+        <br>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="submit btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="update-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Update Comment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+        <div class="form-group">
+          <label>Update Comment</label>
+          <input type="text" class="form-control" placeholder="Enter title" id="update-title">
+        </div>
+        <div class="input-group">
+          <textarea class="form-control" aria-label="With textarea" placeholder="Enter comment" id="update-body"></textarea>
+        </div>
+        <br>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" id="save" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
 </div>

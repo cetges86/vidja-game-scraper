@@ -46,3 +46,7 @@ nav {
 form {
     margin-top:15px;
 }
+
+#footer-link {
+    float: right;
+}

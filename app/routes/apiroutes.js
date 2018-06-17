@@ -21,6 +21,17 @@ module.exports = function (app) {
       })
   });
 
+  app.get("/articles/:id", function (req, res) {
+    db.Article.findOne({_id:req.params.id})
+      .populate("comment")
+      .then(function (dbArticles) {
+        res.json(dbArticles);
+      })
+      .catch(function (err) {
+        return res.json(err);
+      })
+  });
+
   app.put("/save", function (req, res) {
     db.Article.updateOne({ _id: req.body.id }, { $set: { saved: true } })
       .then((updatedArticles) => {
@@ -35,6 +46,18 @@ module.exports = function (app) {
     db.Article.updateOne({ _id: req.body.id }, { $set: { saved: false } })
       .then((updatedArticles) => {
         res.json(updatedArticles);
+      })
+      .catch(function (err) {
+        return res.json(err);
+      })
+  })
+
+  app.put("/comment/:id", function (req, res) {
+    console.log(req.params.id)
+    db.Comment.findOneAndUpdate({ _id: req.params.id },{$set: {title: req.body.title, body: req.body.body}})
+      .then((updatedComment) => {
+        console.log("line 59: " + updatedComment);
+        res.json(updatedComment);
       })
       .catch(function (err) {
         return res.json(err);
