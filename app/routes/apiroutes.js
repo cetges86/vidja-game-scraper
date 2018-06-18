@@ -113,17 +113,7 @@ module.exports = function (app) {
         };
       });
     });
-    app.get("/articles", function (req, res) {
-      db.Article.find({})
-        .then(function (dbArticle) {
-          // If all Notes are successfully found, send them back to the client
-          res.json(dbArticle);
-        })
-        .catch(function (err) {
-          // If an error occurs, send the error back to the client
-          res.json(err);
-        });
-    });
+    res.send("Scrape Complete");
   });
 
 
