@@ -84,62 +84,41 @@ module.exports = function (app) {
   app.get("/scrape", function (req, res) {
     // Query: In our database, go to the animals collection, then "find" everything
     const promises = [];
-    let testArt = {
-      link: "http://www.gamestop.com/news",
-      title: "This is a test article",
-      summary: "Summary to see if mongodb connection is working properly"
-    };
 
-    db.Article.create(testArt)
-      .then(function (newArticle) {
-        console.log(newArticle)
-        //promises.push(promise);
-        res.json(newArticle);
-      })
-      .catch(function (err) {
-        // If an error occurred, send it to the client
-        return res.json(err);
-        //console.error(err);
-      })
-
-
-
-
-    // request("http://www.gamespot.com/news/", function (error, response, html) {
     // //axios.get("http://www.gamespot.com/news/").then(function (response) {
 
+    request("http://www.gamespot.com/news/", function (error, response, html) {
 
-    //   // Load the HTML into cheerio and save it to a variable
-    //   // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
-    //   var $ = cheerio.load(html);
+      // Load the HTML into cheerio and save it to a variable
+      // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
+      var $ = cheerio.load(html);
+      let articlesArray = [];
 
-    //   $("a.js-event-tracking").each(function (i, element) {
+      $("a.js-event-tracking").each(function (i, element) {
 
-    //     let result = {};
+        let result = {};
 
-    //     result.link = "http://www.gamespot.com" + $(element).attr("href");
-    //     result.title = $(element).data('event-title')
-    //     result.summary = $(element).children("div").children('p').text();
+        result.link = "http://www.gamespot.com" + $(element).attr("href");
+        result.title = $(element).data('event-title')
+        result.summary = $(element).children("div").children('p').text();
 
-    //     // Save these results in an object that we'll push into the results array we defined earlier
-    //     if (result.title) {
-    //       const promise = db.Article.create(result)
-    //         .then(function (newArticle) {
-    //           console.log(newArticle)
-    //           promises.push(promise);
-
-    //         })
-    //         .catch(function (err) {
-    //           // If an error occurred, send it to the client
-    //           return res.json(err);
-    //           //console.error(err);
-    //         })
-    //     };
-    //   });
-    //   Promise.all(promises).then(function(data){
-    //     res.send("Article db entries created");
-    //    })
-    // })
+        // Save these results in an object that we'll push into the results array we defined earlier
+        if (result.title) {
+          articlesArray.push(result);
+        };
+      });
+      console.log(articlesArray);
+      db.Article.create(articlesArray)
+            .then(function (newArticles) {
+              console.log(newArticles)
+              res.json(newArticles)
+            })
+            .catch(function (err) {
+              // If an error occurred, send it to the client
+              return res.json(err);
+              //console.error(err);
+            })
+    })
     // .catch(function (err) {
     //   // If an error occurred, send it to the client
     //   console.log("Axios block" + err);
