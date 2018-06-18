@@ -90,7 +90,7 @@ module.exports = function (app) {
       summary: "Summary to see if mongodb connection is working properly"
     };
 
-    db.Article.create(result)
+    db.Article.create(testArt)
       .then(function (newArticle) {
         console.log(newArticle)
         //promises.push(promise);
