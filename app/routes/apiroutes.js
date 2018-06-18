@@ -83,13 +83,14 @@ module.exports = function (app) {
 
   app.get("/scrape", function (req, res) {
     // Query: In our database, go to the animals collection, then "find" everything
-    // request("http://www.gamespot.com/news/", function (error, response, html) {
-    axios.get("http://www.gamespot.com/news/").then(function (response) {
+    const promises = [];
+    request("http://www.gamespot.com/news/", function (error, response, html) {
+    //axios.get("http://www.gamespot.com/news/").then(function (response) {
 
 
       // Load the HTML into cheerio and save it to a variable
       // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
-      var $ = cheerio.load(response.data);
+      var $ = cheerio.load(html);
 
       $("a.js-event-tracking").each(function (i, element) {
 
@@ -101,9 +102,11 @@ module.exports = function (app) {
 
         // Save these results in an object that we'll push into the results array we defined earlier
         if (result.title) {
-          db.Article.create(result)
+          const promise = db.Article.create(result)
             .then(function (newArticle) {
               console.log(newArticle)
+              promises.push(promise);
+
             })
             .catch(function (err) {
               // If an error occurred, send it to the client
@@ -112,12 +115,15 @@ module.exports = function (app) {
             })
         };
       });
-    }).catch(function (err) {
-      // If an error occurred, send it to the client
-      console.log("Axios block" + err);
-      //console.error(err);
     })
-    res.send("Scrape Complete");
+    // .catch(function (err) {
+    //   // If an error occurred, send it to the client
+    //   console.log("Axios block" + err);
+    //   //console.error(err);
+    // })
+   Promise.all(promises).then(function(data){
+    res.send("Article db entries created");
+   })
   });
 
 
