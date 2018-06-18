@@ -84,12 +84,13 @@ module.exports = function (app) {
   app.get("/scrape", function (req, res) {
     // Query: In our database, go to the animals collection, then "find" everything
     // request("http://www.gamespot.com/news/", function (error, response, html) {
-      axios.get("https://www.gamespot.com/news/").then(function (response) {
+    axios.get("http://www.gamespot.com/news/").then(function (response) {
 
 
       // Load the HTML into cheerio and save it to a variable
       // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
       var $ = cheerio.load(response.data);
+
       $("a.js-event-tracking").each(function (i, element) {
 
         let result = {};
@@ -106,12 +107,24 @@ module.exports = function (app) {
             })
             .catch(function (err) {
               // If an error occurred, send it to the client
-              //return res.json(err);
-              console.error(err);
+              return res.json(err);
+              //console.error(err);
             })
         };
       });
-      res.send("Scrape Complete");
+    });
+    app.get("/articles", function (req, res) {
+      db.Article.find({})
+        .then(function (dbArticle) {
+          // If all Notes are successfully found, send them back to the client
+          res.json(dbArticle);
+        })
+        .catch(function (err) {
+          // If an error occurs, send the error back to the client
+          res.json(err);
+        });
     });
   });
+
+
 }
