@@ -115,15 +115,16 @@ module.exports = function (app) {
             })
         };
       });
+      Promise.all(promises).then(function(data){
+        res.send("Article db entries created");
+       })
     })
     // .catch(function (err) {
     //   // If an error occurred, send it to the client
     //   console.log("Axios block" + err);
     //   //console.error(err);
     // })
-   Promise.all(promises).then(function(data){
-    res.send("Article db entries created");
-   })
+   
   });
 
 
