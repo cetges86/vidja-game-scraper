@@ -112,7 +112,11 @@ module.exports = function (app) {
             })
         };
       });
-    });
+    }).catch(function (err) {
+      // If an error occurred, send it to the client
+      console.log("Axios block" + err);
+      //console.error(err);
+    })
     res.send("Scrape Complete");
   });
 
