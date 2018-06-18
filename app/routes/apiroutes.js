@@ -2,9 +2,9 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var path = require("path");
 var mongoose = require("mongoose");
-
 const request = require("request");
 const cheerio = require("cheerio");
+const axios = require("axios");
 
 var db = require("../models");
 
@@ -83,12 +83,13 @@ module.exports = function (app) {
 
   app.get("/scrape", function (req, res) {
     // Query: In our database, go to the animals collection, then "find" everything
+    // request("http://www.gamespot.com/news/", function (error, response, html) {
+      axios.get("http://www.gamespot.com/news/").then(function (response) {
 
-    request("http://www.gamespot.com/news/", function (error, response, html) {
 
       // Load the HTML into cheerio and save it to a variable
       // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
-      var $ = cheerio.load(html);
+      var $ = cheerio.load(response.data);
       $("a.js-event-tracking").each(function (i, element) {
 
         let result = {};
@@ -110,20 +111,7 @@ module.exports = function (app) {
             })
         };
       });
-
+      res.send("Scrape Complete");
     });
-    app.get("/articles", function (req, res) {
-      db.Articles.find({})
-        .then(function (dbArticle) {
-          // If all Notes are successfully found, send them back to the client
-          res.json(dbArticle);
-        })
-        .catch(function (err) {
-          // If an error occurs, send the error back to the client
-          res.json(err);
-        });
-      // TODO: Finish the route so it grabs all of the articles
-    });
-    res.send("Scrape Complete");
   });
 }
