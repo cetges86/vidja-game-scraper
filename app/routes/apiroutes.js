@@ -84,7 +84,7 @@ module.exports = function (app) {
   app.get("/scrape", function (req, res) {
     // Query: In our database, go to the animals collection, then "find" everything
     // request("http://www.gamespot.com/news/", function (error, response, html) {
-      axios.get("http://www.gamespot.com/news/").then(function (response) {
+      axios.get("https://www.gamespot.com/news/").then(function (response) {
 
 
       // Load the HTML into cheerio and save it to a variable
