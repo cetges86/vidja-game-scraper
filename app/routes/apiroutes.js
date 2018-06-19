@@ -93,7 +93,7 @@ module.exports = function (app) {
       // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
       var $ = cheerio.load(html);
       let articlesArray = [];
-      console.log($);
+      console.log("cheerio" + $);
 
       $("a.js-event-tracking").each(function (i, element) {
 
@@ -103,12 +103,12 @@ module.exports = function (app) {
         result.title = $(element).data('event-title')
         result.summary = $(element).children("div").children('p').text();
 
-        console.log("result")
+        console.log("result" + result);
 
         // Save these results in an object that we'll push into the results array we defined earlier
         if (result.title) {
           articlesArray.push(result);
-          console.log(articlesArray);
+          console.log("array of new articles" +articlesArray);
         };
       });
       console.log(articlesArray);
