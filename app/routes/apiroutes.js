@@ -87,22 +87,24 @@ module.exports = function (app) {
 
     // //axios.get("http://www.gamespot.com/news/").then(function (response) {
 
-    request("http://www.gamespot.com/news/", function (error, response, html) {
+    request("https://www.sciencedaily.com/news/computers_math/video_games/", function (error, response, html) {
 
       // Load the HTML into cheerio and save it to a variable
       // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
-      console.log(html);
+      //console.log(html);
       var $ = cheerio.load(html);
       let articlesArray = [];
       
 
-      $("a.js-event-tracking").each(function (i, element) {
+      $("h3.latest-head").each(function (i, element) {
 
         let result = {};
 
-        result.link = "http://www.gamespot.com" + $(element).attr("href");
-        result.title = $(element).data('event-title')
-        result.summary = $(element).children("div").children('p').text();
+        result.link = "http://www.sciencedaily.com"+ $(element).children('a').attr("href");
+        result.title = $(element).text();
+
+
+        result.summary = $(element).next('.latest-summary').text();
 
         // Save these results in an object that we'll push into the results array we defined earlier
         if (result.title) {

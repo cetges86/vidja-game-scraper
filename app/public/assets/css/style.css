@@ -50,3 +50,8 @@ form {
 #footer-link {
     float: right;
 }
+
+img {
+    max-width: 400px;
+    margin-top:20px;
+}

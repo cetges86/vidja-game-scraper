@@ -36,8 +36,8 @@ module.exports = function (app) {
     res.sendFile(process.cwd() + "/app/public/assets/css/" + "style.css");
   });
 
-  app.get("/app/public/assets/img/gamespot-logo.png", function (req, res) {
-    res.sendFile(process.cwd() + "/app/public/assets/img/gamespot-logo.png");
+  app.get("/app/public/assets/img/sd-logo.png", function (req, res) {
+    res.sendFile(process.cwd() + "/app/public/assets/img/sd-logo.png");
   });
 
   app.get("/app/public/assets/js/main.js", function (req, res) {
